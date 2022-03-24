@@ -1,10 +1,12 @@
 from typing import Iterable, List
 
 import numpy as np
+import seaborn as sns
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import normalize
 
-from data.data_helpers import get_unique_letters, get_cumulative_cell_counts, get_original_data, get_region_counts_df
+from data.data_helpers import get_unique_letters, get_cumulative_cell_counts, get_original_data, get_region_counts_df, \
+    get_weighted_mean_df
 
 
 def apply_style(style: str = "seaborn-bright") -> None:
@@ -53,38 +55,44 @@ def plot_cumulative_cell_distribution() -> None:
     plt.show()
 
 
-def plot_dG_feature(feature: str = "pairing",
-                    metric: str = "mean") -> None:
-    valid_features = ["pairing", "folding"]
-    valid_metrics = ["mean", "median"]
-    if feature.lower() not in valid_features:
-        raise ValueError(f"Not a valid argument select from {valid_features}")
-    if metric.lower() not in valid_metrics:
-        raise ValueError(f"Not a valid argument select from {valid_metrics}")
-
-    df = get_original_data()
-    counts_df = get_region_counts_df(df)
-
-    mean_df = counts_df.mean(axis=1)
-    median_df = counts_df.median(axis=1)
+def plot_weighted_mean_distribution() -> None:
+    df = get_weighted_mean_df()
 
     apply_style()
-    if metric == "mean":
-        plt.scatter(df[f"dG_{feature}"], mean_df)
-        plt.ylim([0, 1000])  # 1 Very extreme outlier
-    elif metric == "median":
-        plt.scatter(df[f"dG_{feature}"], median_df, alpha=0.5)
-        plt.ylim([0, 100])
+    plt.hist(df["weighted_mean"])
+    plt.ylabel("Frequency")
+    plt.xlabel("Weighted Mean")
+    plt.tight_layout()
+    plt.show()
 
-    plt.ylabel(f"{metric} Cell Count")
+
+def plot_dG_feature(feature: str = "pairing", ) -> None:
+    valid_features = ["pairing", "folding"]
+    if feature.lower() not in valid_features:
+        raise ValueError(f"Not a valid argument select from {valid_features}")
+
+    df = get_weighted_mean_df()
+
+    apply_style()
+    hb = plt.hexbin(df[f"dG_{feature}"], df["weighted_mean"], gridsize=50, bins='log', cmap='inferno')
+    cb = plt.colorbar(hb, ax=plt.gca())
+    cb.set_label('log10(counts)')
+
+    plt.ylabel(f"Weighted Mean")
     plt.xlabel(f"dG_{feature}")
     plt.show()
 
 
+def plot_region_counts_box_plot() -> None:
+    df = get_region_counts_df()
+    df.boxplot(showfliers=False)
+    plt.show()
+
+
 if __name__ == "__main__":
-    plot_dG_feature("pairing", "mean")
-    plot_dG_feature("pairing", "median")
-    plot_dG_feature("folding", "mean")
-    plot_dG_feature("folding", "median")
+    plot_dG_feature("pairing")
+    plot_dG_feature("folding")
     plot_heatmap()
     plot_cumulative_cell_distribution()
+    plot_weighted_mean_distribution()
+    plot_region_counts_box_plot()
