@@ -84,7 +84,7 @@ def get_encoded_split_data():
 
 
 if __name__ == "__main__":
-    df = one_hot_encode_df(get_weighted_mean_df())
+    df = one_hot_encode_df(get_weighted_mean_df().drop([f"R{_}" for _ in range(1, 9)], axis=1))
     X_train, X_val, X_test, y_train, y_val, y_test = split_data(df)
 
     print(f"{len(X_train)} Training Sequences ({len(X_train) / 260510})")
