@@ -1,7 +1,6 @@
-from typing import Iterable, List
+from typing import Iterable
 
 import numpy as np
-import seaborn as sns
 from matplotlib import pyplot as plt
 from sklearn.preprocessing import normalize
 
@@ -76,7 +75,7 @@ def plot_dG_feature(feature: str = "pairing", ) -> None:
     apply_style()
     hb = plt.hexbin(df[f"dG_{feature}"], df["weighted_mean"], gridsize=50, bins='log', cmap='inferno')
     cb = plt.colorbar(hb, ax=plt.gca())
-    cb.set_label('log10(counts)')
+    cb.set_label('log10(frequency)')
 
     plt.ylabel(f"Weighted Mean")
     plt.xlabel(f"dG_{feature}")
