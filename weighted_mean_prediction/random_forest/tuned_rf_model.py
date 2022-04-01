@@ -28,9 +28,9 @@ def train_tuned_model(model_params: Dict[str, object], X_train: pd.DataFrame, y_
 
 if __name__ == "__main__":
     study_dir = f"{ROOT_DIR}/weighted_mean_prediction/random_forest/studies"
-    study_name = f"rf_study1.joblib"
+    study_name = f"rf_study2.joblib"
     study_path = os.path.join(study_dir, study_name)
-    model_name = "rf1.joblib"
+    model_name = "rf2.joblib"
     model_path = f"{ROOT_DIR}/weighted_mean_prediction/random_forest/models/{model_name}"
 
     X_train, X_val, X_test, y_train, y_val, y_test = get_encoded_split_data()
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     for idx, importance in enumerate(rf.feature_importances_):
         print(f"{X_train.columns[idx]} : {importance}")
 
-    plot_rf_feature_importances(rf.feature_importances_)
+    # plot_rf_feature_importances(rf.feature_importances_)
 
     predictions = rf.predict(X_test)
     mape = metrics.mean_absolute_percentage_error(predictions, y_test)

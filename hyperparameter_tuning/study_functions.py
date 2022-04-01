@@ -9,7 +9,7 @@ from optuna import Study
 def load_study(file_path: Optional[str] = None,
                direction: str = "minimize") -> Study:
     if file_path is None or not os.path.exists(file_path):
-        return optuna.create_study(direction=direction)
+        return optuna.create_study(direction=direction, pruner=optuna.pruners.MedianPruner())
 
     return joblib.load(file_path)
 
