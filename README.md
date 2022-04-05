@@ -6,6 +6,7 @@
 > The colab link https://colab.research.google.com/drive/1ICgYJrwQzKnzSt2MmrUD8VqIz4Qezb_e?usp=sharing        
 > If you can not access the link above, you can also try from [here](CNNModel.ipynb)
 > ```python
-> print()
+> print(history.history['loss'])
+> print(history.history['val_loss'])
 > ```       
 > ### Caution: When you are using this script, every change will be updated on my account. Therefore, if you need to modify the code, please copy to your account. you may also need to upload the X-train.csv and y_train.csv file
