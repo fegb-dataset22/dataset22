@@ -6,7 +6,7 @@
 > The colab link https://colab.research.google.com/drive/1ICgYJrwQzKnzSt2MmrUD8VqIz4Qezb_e?usp=sharing        
 > If you can not access the link above, you can also try from [here](CNNModel.ipynb)
 > ```python
-> #if you also wan to print out the loss, just write
+> #if you also want to print out the loss, just write
 > print(history.history['loss'])
 > print(history.history['val_loss'])
 > ```       
