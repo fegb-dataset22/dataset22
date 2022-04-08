@@ -17,7 +17,7 @@ def get_weighted_mean_df(file_path: str = None) -> pd.DataFrame:
 
 def get_region_counts_df(df: pd.DataFrame = None):
     df = get_original_data() if df is None else df
-    return df.drop(["SeqID", "dG_pairing", "dG_folding"], axis=1)
+    return df[[f"R{_}" for _ in range(1, 9)]]
 
 
 def get_unique_letters(sequences: Iterable[str]) -> List[str]:
