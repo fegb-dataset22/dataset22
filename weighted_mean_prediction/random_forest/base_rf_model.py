@@ -21,7 +21,9 @@ if __name__ == "__main__":
     model_dir = f"{ROOT_DIR}/weighted_mean_prediction/random_forest/models"
     model_path = os.path.join(model_dir, "base_rf_model.joblib")
 
-    X_train, _, X_test, y_train, _, y_test = get_encoded_split_data()
+    X_train, X_val, X_test, y_train, y_val, y_test = get_encoded_split_data()
+    X_train = pd.concat([X_train, X_val])
+    y_train = pd.concat([y_train, y_val])
 
     rf = load_model(model_path)
     rf = rf if rf is not None else train_base_model(X_train, y_train["weighted_mean"], model_path)
