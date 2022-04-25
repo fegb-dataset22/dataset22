@@ -29,6 +29,21 @@ def inverse_one_hot_encode_sequence(encoded: np.ndarray) -> str:
     return decoded
 
 
+def decode_idx(idx: int) -> str:
+
+    unraveled = np.unravel_index(idx, (4, 9))
+
+    if unraveled[0] == 0:
+        base = "A"
+    if unraveled[0] == 1:
+        base = "C"
+    if unraveled[0] == 2:
+        base = "G"
+    if unraveled[0] == 3:
+        base = "U"
+    return base + str(unraveled[1])
+
+
 def one_hot_encode_df(df: pd.DataFrame) -> pd.DataFrame:
     encoded = pd.DataFrame([one_hot_encode_sequence(sequence).flatten() for sequence in df["SeqID"]])
     features = list(df.columns)
