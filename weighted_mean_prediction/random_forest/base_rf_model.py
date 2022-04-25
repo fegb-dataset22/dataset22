@@ -6,7 +6,8 @@ from sklearn.ensemble import RandomForestRegressor
 from root import ROOT_DIR
 from weighted_mean_prediction.data_setup import get_encoded_split_data
 from weighted_mean_prediction.model_storage import save_model, load_model
-from weighted_mean_prediction.regression_performance import plot_rf_feature_importances
+from weighted_mean_prediction.regression_performance import plot_rf_feature_importances, evaluate_model, \
+    plot_residuals_histogram, plot_QQ, plot_fitted, plot_fancy_fitted, get_all_metrics
 
 
 def train_base_model(X_train: pd.DataFrame, y_train: pd.DataFrame,
@@ -36,6 +37,11 @@ if __name__ == "__main__":
         print(f"{X_train.columns[idx]} : {importance}")
 
     plot_rf_feature_importances(rf.feature_importances_)
+
+    predictions, errors = evaluate_model(rf, X_test, y_test)
+    print(get_all_metrics(y_test["weighted_mean"], predictions))
+
+    plot_fancy_fitted(predictions, y_test["weighted_mean"])
 
     """
     Mean Error: -0.0019248004486820023
