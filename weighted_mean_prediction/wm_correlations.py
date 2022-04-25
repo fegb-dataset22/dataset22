@@ -1,3 +1,4 @@
+import joypy
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -5,7 +6,8 @@ from data.data_helpers import get_weighted_mean_df
 from data.dg_correlations import plot_correlations_heatmap
 from weighted_mean_prediction.data_setup import one_hot_encode_df
 
-if __name__ == "__main__":
+
+def plot_corr_heatmap():
     df = get_weighted_mean_df().drop([f"R{_}" for _ in range(1, 9)], axis=1)
     df = one_hot_encode_df(df)
     plot_correlations_heatmap(df, lower_only=True)
@@ -19,3 +21,6 @@ if __name__ == "__main__":
                 cmap="coolwarm")
     plt.xlabel("Sequence Index")
     plt.show()
+
+if __name__ == "__main__":
+    plot_corr_heatmap()
