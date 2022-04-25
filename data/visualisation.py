@@ -2,6 +2,7 @@ from typing import Iterable
 
 import numpy as np
 from matplotlib import pyplot as plt
+import seaborn as sns
 from sklearn.preprocessing import normalize
 
 from data.data_helpers import get_unique_letters, get_cumulative_cell_counts, get_original_data, get_region_counts_df, \
@@ -82,6 +83,22 @@ def plot_dG_feature(feature: str = "pairing", ) -> None:
     plt.show()
 
 
+def plot_region_counts():
+    plt.figure(figsize=(16, 10), dpi=80)
+    region_counts = get_region_counts_df()
+    for r in [f"R{_}" for _ in range(1, 9)]:
+        counts = [count for count in region_counts[r] if count != 0]
+        sns.kdeplot(counts, shade=True, label=r, alpha=.7)
+    # Decoration
+    plt.title('Density Plot', fontsize=22)
+    plt.xlim([0, 1000])
+    plt.legend()
+    plt.show()
+    """fig, axes = joypy.joyplot(get_region_counts_df())
+    plt.xlim([0, 100])
+    plt.show()"""
+
+
 def plot_region_counts_box_plot() -> None:
     df = get_region_counts_df()
     df.boxplot(showfliers=False)
@@ -89,6 +106,7 @@ def plot_region_counts_box_plot() -> None:
 
 
 if __name__ == "__main__":
+    plot_region_counts()
     plot_dG_feature("pairing")
     plot_dG_feature("folding")
     plot_heatmap()
